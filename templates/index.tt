@@ -1,0 +1,22 @@
+[% INCLUDE templates/header.tt %]
+
+<body>
+<center>
+	<div class="container">
+		  <form class="form-signin" role="form" action="check_auth.pl" method="post">
+			<h2 class="form-signin-heading">[% config.0.sitename %]</h2>
+			<input type="username" name="username" class="form-control" placeholder="Username" required autofocus>
+			<input type="password" name="password" class="form-control" placeholder="Password" required>
+			<input type="hidden" name="mac" value="[% mac %]" />
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+	
+	<br />
+	[% IF denied %]
+	<h4 style="color:red">[% message %]</h4>
+	[% END %]
+	
+		  </form>
+	</div> 
+
+</body>
+

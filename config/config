@@ -1,0 +1,10 @@
+# Modifiy your database setting below
+
+[database]
+TYPE=mysql
+[mysql]
+MYSQL_IP=127.0.0.1
+MYSQL_PORT=3306
+MYSQL_USER=unifi
+MYSQL_PASS=unifi
+MYSQL_DATABASE=unifi

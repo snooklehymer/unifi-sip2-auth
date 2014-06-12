@@ -1,0 +1,44 @@
+[% INCLUDE templates/header.tt %]
+[% INCLUDE templates/body_admin.tt %]
+
+    <div class="jumbotron">
+    <form class="form-horizontal" method="post" id="password" action="change_pass.pl">
+    <legend>Change Admin Password</legend>
+      <br />
+        <div class="form-group">
+            <label for="new_password" class="col-sm-3 control-label" ><a title="Enter a new password.">New Password</a></label>
+	 <div class="col-sm-3">
+	    <input name="password" type="text" size="40" class="form-control" data-message="Passwords must be equal" required="required">
+        </div>
+        </div>
+        <div class="form-group">
+            <label for="new_equals_password" class="col-sm-3 control-label" ><a title="Repeat new password.">Repeat Password</a></label>
+	 <div class="col-sm-3">
+	    <input name="new_equals_password" type="text" size="40" class="form-control" data-equals="password" data-message="Passwords must be equal" required="required">
+        </div>
+        </div>
+        <input name="update" type="hidden" value="1" />
+        <br />
+        <button type="submit"  class="btn btn-success">Change Password</button>
+[% IF message %]
+<br />
+<br />
+[% message %]
+[% END %]
+<script>
+$.tools.validator.fn("[data-equals]", "Value not equal with the $1 field", function(input) {
+    var name = input.attr("data-equals"),
+    field = this.getInputs().filter("[name=" + name + "]");
+    return input.val() == field.val() ? true : [name];
+    });
+        $("#password").validator({
+    position: 'top left',
+    offset: [28, 150],
+    message: '<div><em/></div>' // em element is the arrow
+    });
+</script>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+
+</body>

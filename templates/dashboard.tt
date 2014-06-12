@@ -1,0 +1,191 @@
+[% INCLUDE templates/header.tt %]
+[% INCLUDE templates/body_admin.tt %]
+
+    <div class="jumbotron">
+    <form class="form-horizontal" method="post">
+      <input type="hidden" name="update" value="1" />
+        <fieldset>
+      <legend>General Settings</legend>
+      [% IF update %]
+      <div id="updates">
+      <p class="text-success">Update Successful</p>
+      </div>
+      [% END %]
+      <br />
+        <div class="form-group">
+            <label for="sitename" class="col-sm-3 control-label" ><a title="Sitename where AP is located">Site Name</a></label>
+	 <div class="col-sm-3">
+		<input name="sitename" type="text" value="[% config.sitename %]" size="40" class="form-control">
+        </div>
+        </div>
+        <div class="form-group">
+            <label for="redirect_page" class="col-sm-3 control-label"><a title="Page the browser will be directed to on successful login.">Redirect Page</a></label>
+	<div class="col-sm-5">
+            <input name="redirect_page" type="url" class="form-control" data-message="URL must start HTTP" value="[% config.redirect_page %]" >
+        </div>
+	</div>
+        <br />
+      <legend>Unifi Settings</legend>
+      <br />
+        <div class="form-group">
+            <label for="unifi_site_name" class="col-sm-3 control-label" ><a title="Sitename (instance) on Unifi Controller">Unifi Site</a></label>
+	 <div class="col-sm-3">
+		<input name="unifi_site_name" type="text" value="[% config.unifi_site_name %]" size="40" class="form-control" data-message="Site name Required" required="required">
+        </div>
+        </div>
+        <div class="form-group">
+            <label for="unifi_controller_addr" class="col-sm-3 control-label"><a title="Address of Unifi Controller.">Unifi Controller IP</a></label>
+	<div class="col-sm-5">
+            <input name="unifi_controller_addr" type="text" class="form-control" data-message="Hostname or IP of Unifi Controller" value="[% config.unifi_controller_addr %]" required="required" >
+        </div>
+	</div>
+        <div class="form-group">
+            <label for="unifi_controller_port" class="col-sm-3 control-label"><a title="Port of Unifi Controller.">Unifi Controller Port</a></label>
+	<div class="col-sm-5">
+            <input name="unifi_controller_port" type="text" class="form-control" data-message="Port Unifi Controller is listening on" value="[% config.unifi_controller_port %]" required="required">
+        </div>
+	</div>
+        <div class="form-group">
+            <label for="unifi_admin_user" class="col-sm-3 control-label"><a title="Username to authenticate to Unifi Controller.">Unifi Username</a></label>
+	<div class="col-sm-5">
+            <input name="unifi_admin_user" type="text" class="form-control" data-message="Username to authenticate to Unifi Controller" value="[% config.unifi_admin_user %]" required="required">
+        </div>
+	</div>
+        <div class="form-group">
+            <label for="unifi_admin_password" class="col-sm-3 control-label"><a title="Password used to authenticate to Unifi Controller.">Unifi Password</a></label>
+	<div class="col-sm-5">
+            <input name="unifi_admin_password" id="unifiPassword" type="password" class="form-control" data-message="Password for Unifi controller" value="[% config.unifi_admin_password %]" required="required">
+        </div>
+        <label for="revealpassword"><input type="checkbox" id="revealpassword" />Show password</label>
+	</div>
+        <hr />
+      <legend>SIP Settings</legend>
+	<br />
+        <div class="form-group">
+            <label for="enable_sip_validation" class="col-sm-3 control-label"><a title="If enabled will try to authenticate the user against a remote SIP server. If disabled no access will be allowed on the network.">Enable SIP</a></label>    
+	<div class="col-sm-2">
+            <select name="enable_sip_validation" class="form-control">
+             [% IF config.enable_sip_validation =="1"%]
+               <option value="[% config.enable_sip_validation %]" selected=selected>Yes</option>
+               <option value="0" >No</option>
+             [% ELSIF config.enable_sip_validation =="0" %]
+              <option value="[% config.enable_sip_valitdation %]" selected=selected>No</option>
+              <option value="1">Yes</option>
+              [% END %]
+            </select>
+        </div>
+        </div>
+        <div class="form-group">
+            <label for="sip_server" class="col-sm-3 control-label"><a title="IP address of SIP Server.">SIP Server</a></label>
+	<div class="col-sm-4">
+            <input name="sip_server" type="text" value="[% config.sip_server %]"  class="form-control" >
+      </div>
+	</div>
+        <div class="form-group">
+            <label for="sip_port" class="col-sm-3 control-label" ><a title="Port the SIP server is listening on. Note: Socket only support.">SIP Port</a></label>
+	<div class="col-sm-3">
+            <input name="sip_port" type="number" value="[% config.sip_port %]"  class="form-control">
+      </div>
+	</div>
+        <div class="form-group">
+            <label for="sip_auth_login" class="col-sm-3 control-label"><a title="Some SIP servers require an authentication before allowing queries, enable if required.">SIP Requires Auth</a></label>    
+	<div class="col-sm-3">
+            <select name="sip_auth_login" class="form-control">
+             [% IF config.sip_auth_login =="1"%]
+               <option value="[% config.sip_auth_login %]" selected=selected>Yes</option>
+               <option value="0" >No</option>
+             [% ELSIF config.sip_auth_login =="0" %]
+              <option value="[% config.sip_auth_login %]" selected=selected>No</option>
+              <option value="1">Yes</option>
+              [% END %]
+            </select>
+        </div>
+	</div>
+        <div class="form-group">
+            <label for="sip_user" class="col-sm-3 control-label"><a title="Required if the above is enabled. User for SIP authentication.">SIP User</a></label>
+	<div class="col-sm-3">
+            <input name="sip_user" type="text" value="[% config.sip_user %]" class="form-control">
+      </div>
+	</div>
+        <div class="form-group">
+            <label for="sip_pass" class="col-sm-3 control-label" ><a title="Required if the above is enabled. Password for SIP authentication.">SIP Password</a></label>
+	<div class="col-sm-3">
+            <input name="sip_pass" type="text" value="[% config.sip_pass %]"  class="form-control">
+      </div>
+	</div>
+        <div class="form-group">
+            <label for="sip_location" class="col-sm-3 control-label"  ><a title="Some ILS require a location code to be sent in the SIP strings.">SIP Location</a></label>
+	<div class="col-sm-2">
+            <input name="sip_location" type="text" value="[% config.sip_location %]"  class="form-control">
+      </div>  
+	</div>
+         <div class="form-group">
+            <label for="sip_use_pin" class="col-sm-3 control-label"><a title="If enabled will forced PIN authentication when sending the borrower details to the SIP server.">Validate SIP PIN</a></label>    
+	<div class="col-sm-3">
+            <select name="sip_use_pin" class="form-control">
+             [% IF config.sip_use_pin =="1"%]
+               <option value="[% config.sip_use_pin %]" selected=selected>Yes</option>
+               <option value="0" >No</option>
+             [% ELSIF config.sip_use_pin =="0" %]
+              <option value="[% config.sip_use_pin %]" selected=selected>No</option>
+              <option value="1">Yes</option>
+              [% END %]
+            </select>
+        </div>        
+	</div>	
+        <div class="form-group">
+            <label for="sip_send_char" class="col-sm-3 control-label"><a title="This is the character used to send the SIP command. CR is the most common. Change if SIP response is slow">SIP Send Character</a></label>    
+	<div class="col-sm-3">
+            <select name="sip_send_char" class="form-control">
+             [% IF config.sip_send_char =="CR"%]
+               <option value="[% config.sip_send_char %]" selected=selected>CR</option>
+               <option value="NL" >NL</option>
+             [% ELSIF config.sip_send_char =="NL" %]
+              <option value="[% config.sip_send_char %]" selected=selected>NL</option>
+              <option value="CR">CR</option>
+              [% END %]
+            </select>
+        </div>  
+	</div>
+
+	<div class="form-group">
+	<label for="sip_split_messages" class="col-sm-3 control-label"><a title="Enable if your SIP Server splits returned messages">Split Messages</a></label>
+	<div class="col-sm-2">
+	    <select name="sip_split_messages" class="form-control">
+		[% IF config.sip_split_messages =="1" %]
+		<option value="[% config.sip_split_messages %]" selected=selected>On</option>
+		<option value="0">Off</option>
+		[% ELSIF config.sip_split_messages =="0" %]
+		<option value="[% config.sip_split_messages %]" selected=selected>Off</option>
+		<option value="1">On</option>
+		[% END %]
+	   </select>
+	</div>
+	</div>
+        <button type="submit"  class="btn btn-success">Update</button>
+</form>
+
+<script type="text/javascript">
+$("#updates").delay(2500).fadeOut("slow");
+</script>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+ <script type="text/javascript">
+    $(function () {
+        $("#revealpassword").bind("click", function () {
+            var unifiPassword = $("#unifiPassword");
+            if ($(this).is(":checked")) {
+                unifiPassword.after('<input onchange = "PasswordChanged(this);" id = "txt_' + unifiPassword.attr("id") + '" type = "text" class="form-control" value = "' + unifiPassword.val() + '" />');
+                unifiPassword.hide();
+            } else {
+                unifiPassword.val(unifiPassword.next().val());
+                unifiPassword.next().remove();
+                unifiPassword.show();
+            }
+        });
+    });
+    function PasswordChanged(txt) {
+        $(txt).prev().val($(txt).val());
+    }
+</script>
+</body>
