@@ -55,8 +55,8 @@ if ( $action eq '0') {
     if ( $json->{meta}->{rc} eq 'ok' ) {
         print "Content-type: text/html\n\n";
         print "<meta http-equiv=\"REFRESH\" content=\"5;url=$conf->[0]->{redirect_page}\">";
-	print "<h3>Access Granted!<h3><h5>Please wait while we redirect you......</h5>";
-	exit;
+    	print "<h3>Access Granted!<h3><h5>Please wait while we redirect you......</h5>";
+	    
     }
 
     # Issues here with authentication to the Unifi Controller -  let the user know
