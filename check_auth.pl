@@ -70,5 +70,4 @@ if ( $action eq '0') {
 
 my $vars = {};
 
-$template->process($file,$vars)
-   || die $template->error(), "\n";
+#$template->process($file,$vars)   || die $template->error(), "\n";
