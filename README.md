@@ -26,6 +26,11 @@ Features
  - Intercepts original destination webpage and force users to land on a redirected page of your choice
  
 
+License
+============
+MIT License.
+
+
 Installation
 =============
 Please see the INSTALL document for install details
