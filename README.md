@@ -1,7 +1,7 @@
 unifi-sip2-auth
 ===============
 
-Authentication module for Unifi AP Controller againt 3M SIP2 server,
+Authentication module for Unifi AP Wireless Controller againt 3M SIP2 server,
 This module is designed for Unifi APs using the Unifi AP controller.
 
 Overview
