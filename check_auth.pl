@@ -53,8 +53,12 @@ if ( $action eq '0') {
     my $res =  $allow_res->{_content};
     my $json = JSON::XS->new->utf8->decode ($res);
     if ( $json->{meta}->{rc} eq 'ok' ) {
-        print $cgi->redirect($conf->[0]->{redirect_page} )
+        print "Content-type: text/html\n\n";
+        print "<meta http-equiv=\"REFRESH\" content=\"5;url=$conf->[0]->{redirect_page}\">";
+	print "<h3>Access Granted!<h3><h5>Please wait while we redirect you......</h5>";
+	exit;
     }
+
     # Issues here with authentication to the Unifi Controller -  let the user know
     else {
         print "Content-type: text/html\n\n";    

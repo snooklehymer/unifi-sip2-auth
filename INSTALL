@@ -1,0 +1,96 @@
+-------------------------------------------
+Install instructions for unifi-sip2-auth.
+-------------------------------------------
+
+The setup assumes you have apache (or webserver or your choice) installed and configured for your site's 
+virutal host ('guest/s/$site/'), cgi etc.
+
+You should also have perl, cgi, and mysql install/configured.
+
+The following packages are required. Use your package manager to install. Avoid installing from
+CPAN if you can!
+
+apt-get install libcgi-session-perl \
+libtemplate-perl \
+libconfig-tiny-perl \
+libdbi-perl \
+libcrypt-blowfish-perl \ 
+libauthen-passphrase-perl \
+libhttp-cookies-perl \
+liblwp-protocol-https-perl \
+libcrypt-ssleay-perl \
+libwww-perl \
+libjson-xs-perl
+
+Extract the tarball to the root of your web directory (or wherever your unif base will be) and change directory to it.
+
+create a mysql database called 'unifi' and grant permissions (change dbname and users as required!),
+substitiute root for your username if required:
+
+ - mysql -uroot -p
+ - create database unifi;
+ - grant all on unifi.* to 'unifi'@'localhost' identified by 'unifi';
+ - \q
+ - mysql -uroot -p unifi < unifi-sip2-auth.sql
+ 
+If you have chosen a different dbname and/or user/pass you will need to edit config/config to reflect.
+
+You can now delete the unifi-sip2-auth.sql and tar files
+
+Configure your apache host. Below is a sample config and you really should modify this for you needs/security.
+It should work though, for testing at least:
+
+### Start Apache conf
+<VirtualHost *:80>
+    ServerAdmin unifi-admin@localhost
+    DocumentRoot /var/www/unifi
+    <Directory /var/www/unifi/guest/s/default>
+        DirectoryIndex index.pl
+        Options Indexes FollowSymLinks MultiViews
+        Options +ExecCGI
+        AddHandler cgi-script .pl
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+</VirtualHost>
+### End Apache conf
+
+
+Point your browser at http://yourhost/guest/s/$site/admin.pl
+
+default username: admin
+default password: admin
+
+Once logged in you can use the GUI to configure your SIP server and Unifi Controller settings.
+
+SIP log file is written to /tmp/unifi.siptrace
+
+
+------------------------
+SIP Valitaion rules 
+------------------------
+The service can check SIP2 attributes and, based on their contents, allow/deny access to the controller.
+An example might be for an EXPIRED USER, a certain PATRON CODE or a PATRON under a certain age. These
+rules (at the moment) are configured via mysql in the unifi.sip_validation_rules table. There are some default
+rules in place as shown here:
+
++----------+-------------+---------------+---------+-----------------------------------------+---------+------+
+| sip_code | conditions  | value         | actions | message                                 | role_id | ord  |
++----------+-------------+---------------+---------+-----------------------------------------+---------+------+
+| BL       | equal       | N             |       3 | Invalid Username or Password            |       1 |    1 |
+| CQ       | equal       | N             |       3 | Invalid Username or Password            |       1 |    2 |
+| AF       | starts_with | #User expired |       3 | Your account has expired                |    NULL |    3 |
+| AF       | equal       | User BARRED   |       3 | Account Barred                          |    NULL |    4 |
+| PD       | less_than   | 14            |       3 | You must be over 14 to use this network |       1 |    5 |
+| PC       | equal       | J             |       3 | Account not allowed on wireless network |       0 |    6 |
+| BL       | equal       | Y             |       0 |                                         |       2 |    7 |
++----------+-------------+---------------+---------+-----------------------------------------+---------+------+
+
+It is important to leave the first two rows inplace (BL->N and CQ->N)  and the last row (BL->Y) as these are standard values 
+to check for a valid user. The rest of the the rules are processed in order of their ord value. You can add, modify or delete 
+any rule not equal to 1,2 or 7 (or the last ord value if you create your own rules) you should keep the ord values in sequence 
+(although not required!), being careful to leave BL->Y as the last value. 
+** role_id can be NULL - it is not used at present.
+
+

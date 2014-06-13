@@ -199,7 +199,6 @@ sub sip_validate_rules {
     my $config        = shift;
     my $six4          = shift;
     my $pin	      = shift;
-use Data::Dumper;
 # Some sites might not use PIN for validation. Here we check for surname instead
 	 if ( $config->{sip_validate_surname} ) {
 		 my ($surname,$firstname) = split /\,/,$six4->{'AE'};

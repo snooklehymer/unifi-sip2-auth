@@ -31,9 +31,11 @@ sub new_dbh {
                           port=$cnf->{mysql}->{MYSQL_PORT}",
                           $cnf->{mysql}->{MYSQL_USER},
                           $cnf->{mysql}->{MYSQL_PASS},
-                          {RaiseError=>1,
-                          mysql_enable_utf8 => 1}
-                          );
+                       	   { PrintError => 0,
+                             mysql_enable_utf8 => 1
+			   }
+                          ) or print  "Content-type: text/html\n\n<h2>$DBI::errstr</h2><p>Check SQL config file</p>"; # Not overlay happy with this
+			 
 
    return $dbh;
    }
