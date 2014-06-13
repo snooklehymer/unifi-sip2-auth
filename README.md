@@ -6,9 +6,8 @@ This module is designed for Unifi APs using the Unifi AP controller.
 
 Overview
 =========
-The Unifi APs can be used in the Enterprise to allow access to local networks. This module is designed to allow user access 
-a local network only after they are authenticated against a 3M SIP2 server - used around the world on many Library Management
-Systems.
+The Unifi APs can be used in the Enterprise to allow access to local networks. This module is designed to allow users access
+a local network only after they are authenticated against a 3M SIP2 server - used around the world on many Library Management Systems.
 
 While there exists products to enable wireless authentication agains SIP2 servers they tend to be quite expensive and 
 require purchase of either expensive hardware or software. This module if freely availble under the MIT license and can be
